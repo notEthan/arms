@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ethan"]
   spec.email         = ["ethan@unth.net"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = 'Active Record Multiple Serialization'
+  spec.description   = 'A library which offers flexible, chained serializion for Active Record'
+  spec.homepage      = "https://github.com/notEthan/arms"
   spec.license       = "MIT"
 
   ignore_files = %w(.gitignore .travis.yml Gemfile test)
