@@ -1,6 +1,6 @@
 require "arms/version"
 
 module ARMS
-  class Error < StandardError; end
-  # Your code goes here...
+  class Error < StandardError
+  end
 end
