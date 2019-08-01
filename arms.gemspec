@@ -5,7 +5,7 @@ require "arms/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "arms"
-  spec.version       = Arms::VERSION
+  spec.version       = ARMS::VERSION
   spec.authors       = ["Ethan"]
   spec.email         = ["ethan@unth.net"]
 

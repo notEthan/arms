@@ -1,8 +1,8 @@
 require "test_helper"
 
-class ArmsTest < Minitest::Test
+class ARMSTest < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::Arms::VERSION
+    refute_nil ::ARMS::VERSION
   end
 
   def test_it_does_something_useful
