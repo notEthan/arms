@@ -13,6 +13,17 @@ module ARMS
   class DumpError < Error
   end
 
+  # the object passed to a coder shortcut proc, which indicates the model and attribute name
+  # and passes optional arguments used to instantiate the coder.
+  class ShortcutInvocation
+    # the model on which an attribute is being serialized
+    attr_accessor :model
+    # the name of the attribute being serialized
+    attr_accessor :attr_name
+    # arguments passed from the shortcut invocation to the coder shortcut proc
+    attr_accessor :args
+  end
+
   @coder_shortcuts = {}
 
   class << self
