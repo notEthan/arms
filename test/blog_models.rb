@@ -22,6 +22,8 @@ ActiveRecord::Schema.define do
     table.column :tags_const_yaml, :string
     table.column :tags_sym_json, :string
     table.column :tags_sym_yaml, :string
+    table.column :tags_indifferent_json, :string
+    table.column :tags_indifferent_yaml, :string
   end
 end
 
@@ -31,6 +33,8 @@ module Blog
     arms_serialize :tags_const_yaml, YAML
     arms_serialize :tags_sym_json, :json
     arms_serialize :tags_sym_yaml, :yaml
+    arms_serialize :tags_indifferent_json, :indifferent_hashes, :json
+    arms_serialize :tags_indifferent_yaml, :indifferent_hashes, :yaml
   end
   class UnserializedFoo < ActiveRecord::Base
     self.table_name = 'foos'

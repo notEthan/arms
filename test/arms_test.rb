@@ -27,4 +27,21 @@ describe 'ActiveRecord::Base.arms_serialize' do
       assert_equal(%Q(---\n"#BlackLivesMatter":\n  :rank: 1\n), Blog::UnserializedFoo.last.tags_sym_yaml)
     end
   end
+  describe 'deserializing with indifferent access' do
+    it 'deserializes yaml with string keys with indifferent access shortcut' do
+      Blog::UnserializedFoo.create!(tags_indifferent_yaml: %Q(---\n"#BlackLivesMatter":\n  rank: 1\n))
+      assert_equal({'#BlackLivesMatter' => {'rank' => 1}}, Blog::Foo.last.tags_indifferent_yaml)
+      assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_indifferent_yaml)
+    end
+    it 'deserializes yaml with symbol keys with indifferent access shortcut' do
+      Blog::UnserializedFoo.create!(tags_indifferent_yaml: %Q(---\n"#BlackLivesMatter":\n  :rank: 1\n))
+      assert_equal({'#BlackLivesMatter' => {'rank' => 1}}, Blog::Foo.last.tags_indifferent_yaml)
+      assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_indifferent_yaml)
+    end
+    it 'deserializes json with indifferent access shortcut' do
+      Blog::UnserializedFoo.create!(tags_indifferent_json: %q({"#BlackLivesMatter":{"rank":1}}))
+      assert_equal({'#BlackLivesMatter' => {'rank' => 1}}, Blog::Foo.last.tags_indifferent_json)
+      assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_indifferent_json)
+    end
+  end
 end
