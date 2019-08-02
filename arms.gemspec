@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "minitest-reporters"
   spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "sqlite3", "~> 1.3", ">= 1.3.6" # loosen this in accordance with active_record/connection_adapters/sqlite3_adapter.rb
 end
