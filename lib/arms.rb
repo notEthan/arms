@@ -47,3 +47,24 @@ module ARMS
 
   autoload :MultiCoder, 'arms/multi_coder'
 end
+
+module ARMS
+  module ActiveRecord
+    module AttributeMethods
+      module Serialization
+        def arms_serialize(attr_name, *coders)
+          multi_coder = ARMS::MultiCoder.new(coders, attr_name: attr_name, model: self)
+          serialize(attr_name, multi_coder)
+        end
+      end
+    end
+  end
+end
+
+require 'active_record'
+
+module ActiveRecord
+  class Base
+    extend ARMS::ActiveRecord::AttributeMethods::Serialization
+  end
+end
