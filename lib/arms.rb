@@ -46,6 +46,7 @@ module ARMS
   end
 
   autoload :MultiCoder, 'arms/multi_coder'
+  autoload :IndifferentHashesCoder, 'arms/indifferent_hashes_coder'
 end
 
 require 'json'
@@ -55,6 +56,8 @@ ARMS.register_coder_shortcut(:json) { ::ActiveRecord::Coders::JSON }
 require 'yaml'
 ARMS.register_coder_shortcut(YAML) { |s| ::ActiveRecord::Coders::YAMLColumn.new(s.attr_name, *s.args) }
 ARMS.register_coder_shortcut(:yaml) { |s| ::ActiveRecord::Coders::YAMLColumn.new(s.attr_name, *s.args) }
+
+ARMS.register_coder_shortcut(:indifferent_hashes) { ARMS::IndifferentHashesCoder.new }
 
 module ARMS
   module ActiveRecord
