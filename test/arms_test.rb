@@ -43,5 +43,10 @@ describe 'ActiveRecord::Base.arms_serialize' do
       assert_equal({'#BlackLivesMatter' => {'rank' => 1}}, Blog::Foo.last.tags_indifferent_json)
       assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_indifferent_json)
     end
+    it 'deserializes json with ARMS::IndifferentHashesCoder' do
+      Blog::UnserializedFoo.create!(tags_const_indifferent_json: %q({"#BlackLivesMatter":{"rank":1}}))
+      assert_equal({'#BlackLivesMatter' => {'rank' => 1}}, Blog::Foo.last.tags_const_indifferent_json)
+      assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_const_indifferent_json)
+    end
   end
 end
