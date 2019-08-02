@@ -44,4 +44,6 @@ module ARMS
       nil
     end
   end
+
+  autoload :MultiCoder, 'arms/multi_coder'
 end
