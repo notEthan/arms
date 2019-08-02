@@ -17,3 +17,4 @@ end
 Minitest::Spec.register_spec_type(//, ARMSSpec)
 
 require 'arms'
+require_relative 'blog_models'
