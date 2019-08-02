@@ -5,6 +5,11 @@ module ARMS
   class Error < StandardError
   end
 
+  # a coder which is not a recognized shortcut and/or does not respond to #load and #dump
+  class InvalidCoder < Error
+    attr_accessor :coder
+  end
+
   # an error loading column data to objects on the model
   class LoadError < Error
   end
