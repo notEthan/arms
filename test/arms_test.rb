@@ -49,4 +49,41 @@ describe 'ActiveRecord::Base.arms_serialize' do
       assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_const_indifferent_json)
     end
   end
+  describe 'deserializing to structs' do
+    it 'deserializes json array of tags to structs' do
+      Blog::UnserializedFoo.create!(tags_ary_struct_json: %q([{"name":"#BlackLivesMatter","rank":1}]))
+      tag = Blog::Foo.last.tags_ary_struct_json.last
+      assert_equal("#BlackLivesMatter", tag.name)
+      assert_equal(1, tag.rank)
+      assert_instance_of(Blog::Tag, tag)
+    end
+    it 'deserializes yaml array of tags to structs' do
+      Blog::UnserializedFoo.create!(tags_ary_struct_yaml: %Q(---\n- name: "#BlackLivesMatter"\n  rank: 1\n))
+      tag = Blog::Foo.last.tags_ary_struct_yaml.last
+      assert_equal("#BlackLivesMatter", tag.name)
+      assert_equal(1, tag.rank)
+      assert_instance_of(Blog::Tag, tag)
+    end
+    it 'deserializes json array of tags to structs (tags_ary_struct_inst_json)' do
+      Blog::UnserializedFoo.create!(tags_ary_struct_inst_json: %q([{"name":"#BlackLivesMatter","rank":1}]))
+      tag = Blog::Foo.last.tags_ary_struct_inst_json.last
+      assert_equal("#BlackLivesMatter", tag.name)
+      assert_equal(1, tag.rank)
+      assert_instance_of(Blog::Tag, tag)
+    end
+    it 'deserializes yaml array of tags to structs (tags_ary_struct_inst_yaml)' do
+      Blog::UnserializedFoo.create!(tags_ary_struct_inst_yaml: %Q(---\n- name: "#BlackLivesMatter"\n  rank: 1\n))
+      tag = Blog::Foo.last.tags_ary_struct_inst_yaml.last
+      assert_equal("#BlackLivesMatter", tag.name)
+      assert_equal(1, tag.rank)
+      assert_instance_of(Blog::Tag, tag)
+    end
+    it 'newest_tag' do
+      Blog::UnserializedFoo.create!(newest_tag: %Q({"name":"#arms","rank":5280}))
+      foo = Blog::Foo.last
+      assert_equal("#arms", foo.newest_tag.name)
+      assert_equal(5280, foo.newest_tag.rank)
+      assert_instance_of(Blog::Tag, foo.newest_tag)
+    end
+  end
 end
