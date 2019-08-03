@@ -49,6 +49,24 @@ describe 'ActiveRecord::Base.arms_serialize' do
       assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_const_indifferent_json)
     end
   end
+  describe 'serializing with indifferent access' do
+    it 'serializes yaml with string keys with indifferent access shortcut' do
+      Blog::Foo.create!(tags_indifferent_yaml: {'#BlackLivesMatter' => {'rank' => 1}})
+      assert_equal(%Q(---\n"#BlackLivesMatter":\n  rank: 1\n), Blog::UnserializedFoo.last.tags_indifferent_yaml)
+    end
+    it 'serializes yaml with symbol keys with indifferent access shortcut' do
+      Blog::Foo.create!(tags_indifferent_yaml: {'#BlackLivesMatter' => {rank: 1}})
+      assert_equal(%Q(---\n"#BlackLivesMatter":\n  rank: 1\n), Blog::UnserializedFoo.last.tags_indifferent_yaml)
+    end
+    it 'serializes json with indifferent access shortcut' do
+      Blog::Foo.create!(tags_indifferent_json: {'#BlackLivesMatter' => {'rank' => 1}})
+      assert_equal(%q({"#BlackLivesMatter":{"rank":1}}), Blog::UnserializedFoo.last.tags_indifferent_json)
+    end
+    it 'serializes json with ARMS::IndifferentHashesCoder' do
+      Blog::Foo.create!(tags_const_indifferent_json: {'#BlackLivesMatter' => {rank: 1}})
+      assert_equal(%q({"#BlackLivesMatter":{"rank":1}}), Blog::UnserializedFoo.last.tags_const_indifferent_json)
+    end
+  end
   describe 'deserializing to structs' do
     it 'deserializes json array of tags to structs' do
       Blog::UnserializedFoo.create!(tags_ary_struct_json: %q([{"name":"#BlackLivesMatter","rank":1}]))
