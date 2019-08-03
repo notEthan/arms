@@ -1,5 +1,21 @@
 module ARMS
+  # this is a ActiveRecord serialization class intended to serialize from a Struct class
+  # on the loaded ruby side to something JSON-compatible on the dumped database side.
+  #
+  # This coder relies on `loaded_class`, the Struct class which will be used to instantiate
+  # the column data. properties (members) of the loaded class will correspond
+  # to keys of the dumped json object.
+  #
+  # the data may be either a single instance of the loaded class
+  # (serialized as one hash) or an array of them (serialized as an
+  # array of hashes), indicated by the boolean keyword argument `array`.
+  #
+  # the column behind the attribute may be an actual JSON column (postgres json
+  # or jsonb - hstore should work too if you only have string attributes) or may
+  # be a string column with a string serializer after StructCoder.
   class StructCoder
+    # @param loaded_class [Class] the Struct class to load
+    # @param array [Boolean] whether the column holds an array of Struct instances instead of just one
     def initialize(loaded_class, array: false)
       @loaded_class = loaded_class
       # this notes the order of the keys as they were in the json, used by dump_object to generate
@@ -9,6 +25,8 @@ module ARMS
       @array = array
     end
 
+    # @param data [Hash, Array<Hash>]
+    # @return [loaded_class, Array[loaded_class]]
     def load(data)
       return nil if data.nil?
       object = if @array
@@ -22,6 +40,8 @@ module ARMS
       object
     end
 
+    # @param object [loaded_class, Array[loaded_class]]
+    # @return [Hash, Array<Hash>]
     def dump(object)
       return nil if object.nil?
       jsonifiable = begin
@@ -41,6 +61,8 @@ module ARMS
 
     private
 
+    # @param data [Hash]
+    # @return [loaded_class]
     def load_object(data)
       if data.respond_to?(:to_hash)
         data = data.to_hash
@@ -57,6 +79,8 @@ module ARMS
       end
     end
 
+    # @param object [loaded_class]
+    # @return [Hash]
     def dump_object(object)
       if object.is_a?(@loaded_class)
         keys = (object.arms_object_json_coder_keys_order || []) | @loaded_class.members.map(&:to_s)
