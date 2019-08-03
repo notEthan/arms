@@ -52,6 +52,19 @@ module ARMS
   module ActiveRecord
     module AttributeMethods
       module Serialization
+        # ActiveRecord::Base.arms_serialize takes an attribute name and any number of coders which
+        # will be chained to serialize and deserialize between the database column and the model
+        # attribute.
+        #
+        # full documentation is at {ARMS::MultiCoder#initialize}.
+        #
+        # here are a few example invocations:
+        #
+        #     # two coders: indifferent hashes, YAML with argument Hash (the object_class)
+        #     arms_serialize('preferences', :indifferent_hashes, [YAML, Hash])
+        #
+        #     # two coders: struct coder with argument Preference (the struct class), JSON coder
+        #     MultiCoder.new([[:struct, Preference], :json], attr_name: 'preferences', model: Foo)
         def arms_serialize(attr_name, *coders)
           multi_coder = ARMS::MultiCoder.new(coders, attr_name: attr_name, model: self)
           serialize(attr_name, multi_coder)
