@@ -4,6 +4,12 @@ module ARMS
   class Error < StandardError
   end
 
+  class LoadError < Error
+  end
+
+  class DumpError < Error
+  end
+
   @coder_shortcuts = {}
 
   class << self
