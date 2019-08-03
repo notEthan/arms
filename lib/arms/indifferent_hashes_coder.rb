@@ -11,7 +11,13 @@ module ARMS
     end
 
     def dump(object)
-      object
+      if object.respond_to?(:to_ary)
+        object.to_ary.map { |el| dump(el) }
+      elsif object.respond_to?(:to_hash)
+        object.to_hash.transform_values { |v| dump(v) }
+      else
+        object
+      end
     end
   end
 end
