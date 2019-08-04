@@ -1,5 +1,7 @@
 # ARMS
 
+[![Build Status](https://travis-ci.org/notEthan/arms.svg?branch=master)](https://travis-ci.org/notEthan/arms)
+
 ARMS: Active Record Multiple Serialization. This is a library which extends the capabilities of ActiveRecord serialization, allowing you to chain together coders.
 
 For a very simple example, we'll do a thing you can't easily do in ActiveRecord: get a hash with indifferent string/symbol access on the model (in this case for a column named `preferences`), storing serialized JSON in the database:
