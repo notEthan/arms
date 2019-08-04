@@ -1,6 +1,7 @@
 # ARMS
 
 [![Build Status](https://travis-ci.org/notEthan/arms.svg?branch=master)](https://travis-ci.org/notEthan/arms)
+[![Coverage Status](https://coveralls.io/repos/github/notEthan/arms/badge.svg)](https://coveralls.io/github/notEthan/arms)
 
 ARMS: Active Record Multiple Serialization. This is a library which extends the capabilities of ActiveRecord serialization, allowing you to chain together coders.
 
