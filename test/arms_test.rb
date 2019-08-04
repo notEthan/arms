@@ -44,9 +44,10 @@ describe 'ActiveRecord::Base.arms_serialize' do
       assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_indifferent_json)
     end
     it 'deserializes json with ARMS::IndifferentHashesCoder' do
-      Blog::UnserializedFoo.create!(tags_const_indifferent_json: %q({"#BlackLivesMatter":{"rank":1}}))
-      assert_equal({'#BlackLivesMatter' => {'rank' => 1}}, Blog::Foo.last.tags_const_indifferent_json)
+      Blog::UnserializedFoo.create!(tags_const_indifferent_json: %q({"#BlackLivesMatter":{"rank":1,"x":[{"y":"z"}]}}))
+      assert_equal({'#BlackLivesMatter' => {'rank' => 1, 'x' => [{'y' => 'z'}]}}, Blog::Foo.last.tags_const_indifferent_json)
       assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_const_indifferent_json)
+      assert_instance_of(ActiveSupport::HashWithIndifferentAccess, Blog::Foo.last.tags_const_indifferent_json['#BlackLivesMatter']['x'][0])
     end
   end
   describe 'serializing with indifferent access' do
@@ -63,8 +64,8 @@ describe 'ActiveRecord::Base.arms_serialize' do
       assert_equal(%q({"#BlackLivesMatter":{"rank":1}}), Blog::UnserializedFoo.last.tags_indifferent_json)
     end
     it 'serializes json with ARMS::IndifferentHashesCoder' do
-      Blog::Foo.create!(tags_const_indifferent_json: {'#BlackLivesMatter' => {rank: 1}})
-      assert_equal(%q({"#BlackLivesMatter":{"rank":1}}), Blog::UnserializedFoo.last.tags_const_indifferent_json)
+      Blog::Foo.create!(tags_const_indifferent_json: {'#BlackLivesMatter' => {rank: 1, x: [{y: 'z'}]}})
+      assert_equal(%q({"#BlackLivesMatter":{"rank":1,"x":[{"y":"z"}]}}), Blog::UnserializedFoo.last.tags_const_indifferent_json)
     end
   end
   describe 'deserializing to structs' do
