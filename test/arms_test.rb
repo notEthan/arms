@@ -127,4 +127,14 @@ describe 'ActiveRecord::Base.arms_serialize' do
       assert_equal(%Q({"name":"#arms","rank":5280}), Blog::UnserializedFoo.last.newest_tag)
     end
   end
+  describe 'incorrect invocation' do
+    it 'raises when trying to pass arguments to a coder that is not a shortcut' do
+      err = assert_raises(ARMS::InvalidCoder) { Blog::Foo.arms_serialize('x', [ARMS::IndifferentHashesCoder.new, 3]) }
+      assert_match(%r(given shortcut arguments are not passed to the coder at index 0 which responds to #load and #dump\. coder: #<ARMS::IndifferentHashesCoder.*>; shortcut args: \[3\]), err.message)
+    end
+    it 'raises when given a coder that is not a coder' do
+      err = assert_raises(ARMS::InvalidCoder) { Blog::Foo.arms_serialize('x', "jsonify this pls") }
+      assert_equal("given coder at index 0 is not a recognized shortcut and does not respond to #load and #dump. coder: \"jsonify this pls\"; shortcut args: nil", err.message)
+    end
+  end
 end
