@@ -25,8 +25,8 @@ module ARMS
       @array = array
     end
 
-    # @param data [Hash, Array<Hash>]
-    # @return [loaded_class, Array[loaded_class]]
+    # @param data [Hash, Array<Hash>, nil]
+    # @return [loaded_class, Array[loaded_class], nil]
     def load(data)
       return nil if data.nil?
       object = if @array
@@ -40,8 +40,8 @@ module ARMS
       object
     end
 
-    # @param object [loaded_class, Array[loaded_class]]
-    # @return [Hash, Array<Hash>]
+    # @param object [loaded_class, Array[loaded_class], nil]
+    # @return [Hash, Array<Hash>, nil]
     def dump(object)
       return nil if object.nil?
       jsonifiable = begin
