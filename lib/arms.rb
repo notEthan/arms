@@ -61,6 +61,8 @@ ARMS.register_coder_shortcut(:yaml) { |s| ::ActiveRecord::Coders::YAMLColumn.new
 ARMS.register_coder_shortcut(:indifferent_hashes) { ARMS::IndifferentHashesCoder.new }
 ARMS.register_coder_shortcut(:struct) { |s| ARMS::StructCoder.new(*s.args) }
 
+require 'arms/third_party_coders'
+
 module ARMS
   module ActiveRecord
     module AttributeMethods
